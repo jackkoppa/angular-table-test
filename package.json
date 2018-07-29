@@ -7,7 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ci-test": "ng test -cc -sr --browsers=ChromeHeadless",
+    "ci-coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "ci-deploy": "ng build --prod --base-href \"https://jackkoppa.github.io/angular-table-test/\" && angular-cli-ghpages --repo=https://GH_TOKEN@github.com/jackkoppa/angular-table-test.git --name=\"Jack Koppa\" --email=hello@jackkoppa.com"
   },
   "private": true,
   "dependencies": {
