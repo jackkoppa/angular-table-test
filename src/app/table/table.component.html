@@ -1,5 +1,13 @@
 <table>
-  <thead>Hi</thead>
-  <tbody></tbody>
+  <thead>
+    <tr>
+      <th *ngFor="let header of dataHeadersMap">{{header.display}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dataRow of data">
+      <td *ngFor="let header of dataHeadersMap">{{dataRow[header.value]}}</td>
+    </tr>
+  </tbody>
   <tfoot>Footer</tfoot>
 </table>
