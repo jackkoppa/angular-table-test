@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  host: 'https://jackkoppa.github.io'
+  host: 'https://jackkoppa.github.io/angular-table-test'
 };
