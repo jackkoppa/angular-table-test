@@ -1,9 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 $capcoPrimary: #C00D0D;
 $capcoSecondary: #4c4c4c;
-$capcoBlack: #000;
+
+$white: #fff;
+$light-gray: #ddd;
+$dark-gray: $capcoSecondary;
+$black: #000;
 
 table {
   border: none;
-  color: $capcoPrimary;
+
+  tr {
+    &:nth-child(odd) { background-color: $white; }
+    &:nth-child(even) { background-color: $light-gray; }
+  }
+  th, td {
+    white-space: nowrap;
+    padding: 10px;
+  }
 }
