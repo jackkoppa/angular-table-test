@@ -1,4 +1,15 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+  Inject
+} from '@angular/core';
+
+import { WindowWrapper } from '../utilties/window-wrapper';
 
 import { TableService } from './table.service';
 import {
@@ -6,11 +17,10 @@ import {
   OriginalDataToHeadersMap
  } from './table.models';
 
+
 @Component({
   selector: 'att-table',
-  templateUrl: './table.component.html',
-  // maintain DI to avoid direct reference to `window`, thus allowing for testing environments without `window`
-  providers: [{provide: Window, useValue: window}]
+  templateUrl: './table.component.html'
 })
 export class TableComponent implements OnInit {
   @ViewChild('displayHeader') displayHeader: ElementRef;
@@ -34,20 +44,36 @@ export class TableComponent implements OnInit {
   constructor(
     private tableService: TableService,
     private cdr: ChangeDetectorRef,
-    private window: Window // DI
+    @Inject('WindowWrapper') private window: WindowWrapper // DI
   ) {
     this.dataHeadersMap = Object.keys(OriginalDataToHeadersMap)
       .map(prop => { return { value: prop, display: OriginalDataToHeadersMap[prop] } });
     console.log(this.dataHeadersMap);
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.tableService.getSampleData()
       .subscribe(response => {
         this.data = <OriginalDataShape[]>response;
         this.changeRows(this.displayedRows);
         this.calculateHeaderWidths();
       });
+    this.watchScroll();
+  }
+
+  public changeRows(newRows: number): void {
+    const firstItem = this.displayedRows * (this.currentPage - 1);
+    this.displayedRows = newRows;
+    this.displayedData = this.data.slice(firstItem, firstItem + this.displayedRows);
+    this.calculateHeaderWidths();
+  }
+
+  public start(): void { this.setPage(1); }
+  public back(): void { this.setPage(this.currentPage - 1); }
+  public next(): void { this.setPage(this.currentPage + 1); }
+  public last(): void { this.setPage(this.totalPages); }
+
+  private watchScroll(): void {
     this.window.onscroll = (e) => {
       if (this.lastScrollX !== this.window.scrollX) {
         this.displayHeader.nativeElement.style.left = `${-this.window.scrollX}px`;
@@ -56,14 +82,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  changeRows(newRows: number): void {
-    const firstItem = this.displayedRows * (this.currentPage - 1);
-    this.displayedRows = newRows;
-    this.displayedData = this.data.slice(firstItem, firstItem + this.displayedRows);
-    this.calculateHeaderWidths();
-  }
-
-  calculateHeaderWidths(): void {
+  private calculateHeaderWidths(): void {
     this.cdr.detectChanges();
     const hiddenHeaderItems = this.hiddenHeaderItem.toArray();
     const displayHeaderItems = this.displayHeaderItem.toArray();
@@ -71,11 +90,6 @@ export class TableComponent implements OnInit {
       displayHeaderItems[i].nativeElement.style.minWidth = `${hiddenHeaderItems[i].nativeElement.getBoundingClientRect().width}px`;
     }
   }
-
-  start(): void { this.setPage(1); }
-  back(): void { this.setPage(this.currentPage - 1); }
-  next(): void { this.setPage(this.currentPage + 1); }
-  last(): void { this.setPage(this.totalPages); }
 
   private notAllRowsDisplayed(): boolean {
     return this.data > this.displayedData
