@@ -17,6 +17,8 @@ $box-shadow-style: 0px 0px 18px -2px $black;
 /* Styles */
 * { box-sizing: border-box; }
 
+html, body { overflow: auto; }
+
 body {
   font-family: 'Courier New', monospace;
   margin: 0;
