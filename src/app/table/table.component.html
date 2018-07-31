@@ -11,6 +11,7 @@
     <tr *ngFor="let dataRow of displayedData">
       <td *ngFor="let header of dataHeadersMap">{{dataRow[header.value]}}</td>
     </tr>
+    <tr class="spacer-row"></tr>
   </tbody>
   <tfoot>
     <div>

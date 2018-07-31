@@ -25,6 +25,9 @@ table {
 
     &.display-header { position: fixed; }
     &.hidden-header { visibility: hidden; }
+
+    &:nth-last-child(2) > td { border-bottom: $border-style; }
+    &.spacer-row { height: 60px; }
   }
 
   th, td {

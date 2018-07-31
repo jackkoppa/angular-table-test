@@ -28,7 +28,7 @@ export class TableComponent implements OnInit {
   public get totalPages(): number { return Math.ceil(this.data.length / this.displayedRows); }
   public get backVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage !== 1 }
   public get nextVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage < this.totalPages }
-  public get startVisible(): boolean { return this.backVisible && this.currentPage >= 2 }
+  public get startVisible(): boolean { return this.backVisible && this.currentPage > 2 }
   public get lastVisible(): boolean { return this.nextVisible && this.totalPages - this.currentPage >= 2 }
 
   constructor(
