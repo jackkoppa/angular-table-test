@@ -9,8 +9,8 @@ import {
 @Component({
   selector: 'att-table',
   templateUrl: './table.component.html',
-  providers: [{provide: Window, useValue: window}]  // maintain DI to avoid direct reference to `window`,
-                                                    // thus allowing for testing environments without `window`
+  // maintain DI to avoid direct reference to `window`, thus allowing for testing environments without `window`
+  providers: [{provide: Window, useValue: window}]
 })
 export class TableComponent implements OnInit {
   @ViewChild('displayHeader') displayHeader: ElementRef;
@@ -25,10 +25,16 @@ export class TableComponent implements OnInit {
   private lastScrollX: number = 0;
 
 
+  public get totalPages(): number { return Math.ceil(this.data.length / this.displayedRows); }
+  public get backVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage !== 1 }
+  public get nextVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage < this.totalPages }
+  public get startVisible(): boolean { return this.backVisible && this.currentPage >= 2 }
+  public get lastVisible(): boolean { return this.nextVisible && this.totalPages - this.currentPage >= 2 }
+
   constructor(
     private tableService: TableService,
     private cdr: ChangeDetectorRef,
-    private window: Window
+    private window: Window // DI
   ) {
     this.dataHeadersMap = Object.keys(OriginalDataToHeadersMap)
       .map(prop => { return { value: prop, display: OriginalDataToHeadersMap[prop] } });
@@ -64,5 +70,21 @@ export class TableComponent implements OnInit {
     for (let i = 0; i < hiddenHeaderItems.length; i++) {
       displayHeaderItems[i].nativeElement.style.minWidth = `${hiddenHeaderItems[i].nativeElement.getBoundingClientRect().width}px`;
     }
+  }
+
+  start(): void { this.setPage(1); }
+  back(): void { this.setPage(this.currentPage - 1); }
+  next(): void { this.setPage(this.currentPage + 1); }
+  last(): void { this.setPage(this.totalPages); }
+
+  private notAllRowsDisplayed(): boolean {
+    return this.data > this.displayedData
+  }
+
+  private setPage(page: number) {
+    this.currentPage = page;
+    const firstItem = this.displayedRows * (this.currentPage - 1);
+    this.displayedData = this.data.slice(firstItem, firstItem + this.displayedRows);
+    this.calculateHeaderWidths();
   }
 }

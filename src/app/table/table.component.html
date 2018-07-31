@@ -14,6 +14,13 @@
   </tbody>
   <tfoot>
     <div>
+      <div class="pagination">
+        <span *ngIf="startVisible" (click)="start()">&lt;&lt;</span>
+        <span *ngIf="backVisible" (click)="back()">&lt;</span>
+        <span>Page {{currentPage}} of {{totalPages}}</span>
+        <span *ngIf="nextVisible" (click)="next()">&gt;</span>
+        <span *ngIf="lastVisible" (click)="last()">&gt;&gt;</span>
+      </div>
       <p>Rows Per Page</p>
       <select #rows (change)="changeRows(rows.value)">
         <option value="25">25</option>

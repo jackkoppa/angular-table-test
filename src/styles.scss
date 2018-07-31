@@ -47,7 +47,11 @@ table {
     height: 50px;
     background-color: $capcoPrimary;
 
-    p, select { float: left;}
+    p, select { float: left; }
+
+    .pagination {
+      span { cursor: pointer; }
+    }
   }
 
 }
