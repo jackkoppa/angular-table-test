@@ -56,15 +56,30 @@ table {
     background-color: $capcoPrimary;
     bottom: 0;
     box-shadow: 0px 0px 18px -4px $black;
-    height: 50px;
+    color: $white;
     left: 0;
     position: fixed;
     width: 100%;
 
-    p, select { float: left; }
+    .rows {
+      float: right;
+      padding: $gutter-md;
+
+      p, select {
+        float: left;
+        margin: 0 $gutter-md 0;
+      }
+    }
 
     .pagination {
-      span { cursor: pointer; }
+      float: left;
+      padding: $gutter-md;
     }
+  }
+
+  .pointer {
+    cursor: pointer;
+    opacity: 0.8;
+    &:hover { opacity: 1; }
   }
 }
