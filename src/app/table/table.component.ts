@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 import { TableService } from './table.service';
 import {
@@ -10,7 +10,7 @@ import {
   selector: 'att-table',
   templateUrl: './table.component.html'
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit {
   @ViewChild('displayHeader') displayHeader: ElementRef;
   @ViewChildren('displayHeaderItem') displayHeaderItem: QueryList<ElementRef>;
   @ViewChildren('hiddenHeaderItem') hiddenHeaderItem: QueryList<ElementRef>;
@@ -18,7 +18,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   public dataHeadersMap: {}[] = [];
   private lastScrollX: number = 0;
 
-  constructor(private tableService: TableService) {
+  constructor(
+    private tableService: TableService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.dataHeadersMap = Object.keys(OriginalDataToHeadersMap)
       .map(prop => { return { value: prop, display: OriginalDataToHeadersMap[prop] } });
     console.log(this.dataHeadersMap);
@@ -28,6 +31,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tableService.getSampleData()
       .subscribe(response => {
         this.data = <OriginalDataShape[]>response;
+        this.cdr.detectChanges();
+        const hiddenHeaderItems = this.hiddenHeaderItem.toArray();
+        const displayHeaderItems = this.displayHeaderItem.toArray();
+        for (let i = 0; i < hiddenHeaderItems.length; i++) {
+          displayHeaderItems[i].nativeElement.style.minWidth = `${hiddenHeaderItems[i].nativeElement.getBoundingClientRect().width}px`;
+        }
       });
     window.onscroll = (e) => {
       if (this.lastScrollX !== window.scrollX) {
@@ -36,17 +45,4 @@ export class TableComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      const hiddenHeaderItems = this.hiddenHeaderItem.toArray();
-      const displayHeaderItems = this.displayHeaderItem.toArray();
-      for (let i = 0; i < hiddenHeaderItems.length; i++) {
-        console.log('scrollWidth:' + hiddenHeaderItems[i].nativeElement.scrollWidth);
-        displayHeaderItems[i].nativeElement.style.minWidth = `${hiddenHeaderItems[i].nativeElement.getBoundingClientRect().width}px`;
-      }
-    }, 2000)
-    // setTimeout(() => this.hiddenHeader.forEach(header => console.log(header.nativeElement.scrollWidth)), 5000);
-  }
-
 }
