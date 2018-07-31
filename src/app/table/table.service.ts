@@ -16,7 +16,6 @@ export class TableService {
   }
 
   public submitSampleRow(data: DataShape): Promise<DataShape> {
-    console.log('fake submit called with', data)
     return this.http.post(`${environment.host}/api/sample/route`, data)
       .toPromise()
       .catch(error => {

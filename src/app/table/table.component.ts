@@ -26,9 +26,14 @@ export class TableComponent implements OnInit {
   @ViewChild('displayHeader') displayHeader: ElementRef;
   @ViewChildren('displayHeaderItem') displayHeaderItem: QueryList<ElementRef>;
   @ViewChildren('hiddenHeaderItem') hiddenHeaderItem: QueryList<ElementRef>;
+
+  // DataShape & OriginalDataShape exist to allow any data stucture to work with the table component
+  // This would include, in future functionality, being able to interact with strongly typed rows of data of any shape,
+  // simply by creating a new interface, e.g. "NewDataShape", that also extends DataShape, and using that here
   public data: OriginalDataShape[] = [];
   public displayedData: OriginalDataShape[] = [];
   public dataHeadersMap: {}[] = [];
+
   public currentPage: number = 1;
 
   private displayedRows: number = 25;
@@ -62,7 +67,6 @@ export class TableComponent implements OnInit {
   }
 
   public fakeSubmitRow(row: OriginalDataShape): void {
-    console.log('fake submit');
     this.tableService.submitSampleRow(row);
   }
 
