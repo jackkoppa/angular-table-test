@@ -44,7 +44,7 @@ export class TableComponent implements OnInit {
   constructor(
     private tableService: TableService,
     private cdr: ChangeDetectorRef,
-    @Inject('WindowWrapper') private window: WindowWrapper // DI
+    private window: WindowWrapper // DI
   ) {
     this.dataHeadersMap = Object.keys(OriginalDataToHeadersMap)
       .map(prop => { return { value: prop, display: OriginalDataToHeadersMap[prop] } });
