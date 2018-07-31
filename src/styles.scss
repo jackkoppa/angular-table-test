@@ -3,7 +3,7 @@ $capcoPrimary: #C00D0D;
 $capcoSecondary: #4c4c4c;
 
 $white: #fff;
-$light-gray: #ddd;
+$light-gray: #eee;
 $dark-gray: $capcoSecondary;
 $black: #000;
 
@@ -13,6 +13,16 @@ $gutter-md: 10px;
 $border-style: 2px solid $dark-gray;
 $box-shadow-style: 0px 0px 18px -2px $black;
 
+@mixin rowtransition() {
+  cursor: pointer;
+  transition: color 0.2s;
+  transition: background-color 0.2s;
+}
+@mixin hoverrow() {
+  background-color: $dark-gray;
+  color: $white;
+  transition: color
+}
 
 /* Styles */
 * { box-sizing: border-box; }
@@ -25,16 +35,24 @@ body {
 table {
   border: none;
   border-spacing: 0px;
-
-  tr {
-    &:nth-child(even) { background-color: $white; }
-    &:nth-child(odd) { background-color: $light-gray; }
-
-    &.display-header {
-      position: fixed;
+  thead {
+    .display-header {
+      background-color: $white;
       box-shadow: 0px 2px 14px -4px $black;
+      position: fixed;
     }
-    &.hidden-header { visibility: hidden; }
+    .hidden-header { visibility: hidden; }
+  }
+  :not(thead) tr {
+    @include rowtransition();
+    &:nth-child(even) {
+      background-color: $white;
+      &:hover { @include hoverrow(); }
+    }
+    &:nth-child(odd) {
+      background-color: $light-gray;
+      &:hover { @include hoverrow(); }
+    }
 
     &:nth-last-child(2) > td { border-bottom: $border-style; }
     &.spacer-row { height: 60px; }

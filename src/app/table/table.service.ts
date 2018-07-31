@@ -14,4 +14,14 @@ export class TableService {
   public getSampleData(): Observable<DataShape[]> {
     return this.http.get<DataShape[]>(`${environment.host}/assets/sample_data.json`);
   }
+
+  public submitSampleRow(data: DataShape): Promise<DataShape> {
+    console.log('fake submit called with', data)
+    return this.http.post(`${environment.host}/api/sample/route`, data)
+      .toPromise()
+      .catch(error => {
+        console.warn('Post call failed as expected, because route does not exist. Submitted row:', data);
+        return data;
+      });
+  }
 }

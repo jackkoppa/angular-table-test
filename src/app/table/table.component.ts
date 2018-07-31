@@ -61,6 +61,11 @@ export class TableComponent implements OnInit {
     this.watchScroll();
   }
 
+  public fakeSubmitRow(row: OriginalDataShape): void {
+    console.log('fake submit');
+    this.tableService.submitSampleRow(row);
+  }
+
   public changeRows(newRows: number): void {
     const firstItem = this.displayedRows * (this.currentPage - 1);
     this.displayedRows = newRows;
