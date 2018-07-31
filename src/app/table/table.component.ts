@@ -19,7 +19,7 @@ import {
 
 
 @Component({
-  selector: 'att-table',
+  selector: 'app-table',
   templateUrl: './table.component.html'
 })
 export class TableComponent implements OnInit {
@@ -34,17 +34,17 @@ export class TableComponent implements OnInit {
   public displayedData: OriginalDataShape[] = [];
   public dataHeadersMap: {}[] = [];
 
-  public currentPage: number = 1;
+  public currentPage = 1;
 
-  private displayedRows: number = 25;
-  private lastScrollX: number = 0;
+  private displayedRows = 25;
+  private lastScrollX = 0;
 
 
   public get totalPages(): number { return Math.ceil(this.data.length / this.displayedRows); }
-  public get backVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage !== 1 }
-  public get nextVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage < this.totalPages }
-  public get startVisible(): boolean { return this.backVisible && this.currentPage > 2 }
-  public get lastVisible(): boolean { return this.nextVisible && this.totalPages - this.currentPage >= 2 }
+  public get backVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage !== 1; }
+  public get nextVisible(): boolean { return this.notAllRowsDisplayed() && this.currentPage < this.totalPages; }
+  public get startVisible(): boolean { return this.backVisible && this.currentPage > 2; }
+  public get lastVisible(): boolean { return this.nextVisible && this.totalPages - this.currentPage >= 2; }
 
   constructor(
     private tableService: TableService,
@@ -52,7 +52,7 @@ export class TableComponent implements OnInit {
     private window: WindowWrapper // DI
   ) {
     this.dataHeadersMap = Object.keys(OriginalDataToHeadersMap)
-      .map(prop => { return { value: prop, display: OriginalDataToHeadersMap[prop] } });
+      .map(prop => ({ value: prop, display: OriginalDataToHeadersMap[prop] }));
     console.log(this.dataHeadersMap);
   }
 
@@ -88,7 +88,7 @@ export class TableComponent implements OnInit {
         this.displayHeader.nativeElement.style.left = `${-this.window.scrollX}px`;
         this.lastScrollX = this.window.scrollX;
       }
-    }
+    };
   }
 
   private calculateHeaderWidths(): void {
@@ -101,7 +101,7 @@ export class TableComponent implements OnInit {
   }
 
   private notAllRowsDisplayed(): boolean {
-    return this.data > this.displayedData
+    return this.data > this.displayedData;
   }
 
   private setPage(page: number) {

@@ -9,16 +9,16 @@ import { WindowWrapper } from '../utilties/window-wrapper';
 import { TableService } from './table.service';
 import { DataShape } from './table.models';
 
-let tableServiceMock: TableService = <TableService>{
+const tableServiceMock: TableService = <TableService>{
   getSampleData: () => from([]),
   submitSampleRow: (data: DataShape) => Promise.resolve({})
-}
-let cdrMock: ChangeDetectorRef = <ChangeDetectorRef>{
+};
+const cdrMock: ChangeDetectorRef = <ChangeDetectorRef>{
   detectChanges: () => {}
-}
-let windowMock: WindowWrapper = <WindowWrapper>{
+};
+const windowMock: WindowWrapper = <WindowWrapper>{
   scrollX: 0
-}
+};
 
 describe('TableComponent', () => {
   let component: TableComponent;

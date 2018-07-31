@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { TableComponent } from './table.component';
-import { TableService } from './table.service'
+import { TableService } from './table.service';
 
 @NgModule({
   imports: [
