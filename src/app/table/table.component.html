@@ -1,7 +1,10 @@
 <table>
   <thead>
-    <tr>
-      <th *ngFor="let header of dataHeadersMap">{{header.display}}</th>
+    <tr class="display-header" #displayHeader>
+      <th *ngFor="let header of dataHeadersMap" #displayHeaderItem>{{header.display}}</th>
+    </tr>
+    <tr class="hidden-header">
+      <th *ngFor="let header of dataHeadersMap" #hiddenHeaderItem>{{header.display}}</th>
     </tr>
   </thead>
   <tbody>

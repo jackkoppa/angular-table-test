@@ -7,15 +7,36 @@ $light-gray: #ddd;
 $dark-gray: $capcoSecondary;
 $black: #000;
 
+$gutter-sm: 5px;
+$gutter-md: 10px;
+
+$border-style: 2px solid $dark-gray;
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
 table {
   border: none;
+  border-spacing: 0px;
 
   tr {
-    &:nth-child(odd) { background-color: $white; }
-    &:nth-child(even) { background-color: $light-gray; }
+    &:nth-child(even) { background-color: $white; }
+    &:nth-child(odd) { background-color: $light-gray; }
+
+    &.display-header { position: fixed; }
+    &.hidden-header { visibility: hidden; }
   }
+
   th, td {
     white-space: nowrap;
-    padding: 10px;
+    padding: $gutter-sm $gutter-md;
+    border-right: $border-style;
+    &:first-child { border-left: $border-style; }
   }
+
+  th {
+    border-top: $border-style;
+    border-bottom: $border-style;
+  }
+
 }
