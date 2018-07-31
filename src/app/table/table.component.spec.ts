@@ -1,14 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangeDetectorRef } from '@angular/core';
+
+import { from } from 'rxjs';
 
 import { TableComponent } from './table.component';
 
-import { TableService } from './table.service';
-import { from } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
 import { WindowWrapper } from '../utilties/window-wrapper';
+import { TableService } from './table.service';
+import { DataShape } from './table.models';
 
 let tableServiceMock: TableService = <TableService>{
-  getSampleData: () => from([])
+  getSampleData: () => from([]),
+  submitSampleRow: (data: DataShape) => Promise.resolve({})
 }
 let cdrMock: ChangeDetectorRef = <ChangeDetectorRef>{
   detectChanges: () => {}
