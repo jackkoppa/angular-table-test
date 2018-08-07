@@ -71,10 +71,9 @@ export class TableComponent implements OnInit {
   }
 
   public changeRows(newRows: number): void {
-    const firstItem = this.displayedRows * (this.currentPage - 1);
+    const firstItem = this.displayedRows * (this.currentPage - 1) + 1;
     this.displayedRows = newRows;
-    this.displayedData = this.data.slice(firstItem, firstItem + this.displayedRows);
-    this.calculateHeaderWidths();
+    this.setPage(Math.ceil(firstItem / this.displayedRows));
   }
 
   public start(): void { this.setPage(1); }
